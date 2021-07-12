@@ -1,29 +1,32 @@
-from view.color import Color
-from view.components.drawObject import DrawObject
 from geometry.vertex import Vertex as GVertex
+from view.color import Color
 
-class Vertex(DrawObject, GVertex) :
-    """
-        Vertex Object
-        Inherits from DrawObject and geometry.Vertex
-    """
+VERTEX_RADIUS = 3
 
-    def __init__(self, canvas,  position, color=Color.Get_Random()):
+
+class Vertex(GVertex):
+
+    def __init__(self, canvas, position):
         GVertex.__init__(self, position)
-        DrawObject.__init__(self, canvas)
-        self.set_position(position)
-        self.z = 0
-        self.radius = 3
-        self.set_color(color)
-        self.original.set_immutable()
+        self.canvas = canvas
+        self.dead = False
+        self.centroid = None
+        self.color = {
+            "fill": Color.Get_Random(),
+            "stroke": Color.Get_Random()
+        }
+
+    def is_dead(self):
+        return self.dead
+
+    def kill(self):
+        self.dead = True
+
+    def get_draw_position(self):
+        return self.get_x() + int(self.canvas["width"]) / 2, self.get_y() + int(self.canvas["height"]) / 2
 
     def draw(self):
-        self.canvas.create_oval(self.get_x()-self.radius, self.get_y()-self.radius, self.get_x()+self.radius, self.get_y()+self.radius, fill=self.color["fill"].hex, outline="")
-        return self
-
-    def set_attribute(self, key, value):
-        if self.locked:
-            raise AttributeError("Vector is locked. Cannot change any attributes")
-        else:
-            self.__setattr__(key, value)
+        draw_position = self.get_draw_position()
+        self.canvas.create_oval(draw_position[0] - VERTEX_RADIUS, draw_position[1] - VERTEX_RADIUS, draw_position[0] + VERTEX_RADIUS,
+                                draw_position[1] + VERTEX_RADIUS, fill=self.color["fill"].hex, outline="")
         return self

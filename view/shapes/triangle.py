@@ -1,5 +1,6 @@
-from view.components.drawObject import DrawObject
 from geometry.triangle import Triangle as GTriangle
+from view.components.drawObject import DrawObject
+
 
 class Triangle(DrawObject, GTriangle):
     def __init__(self, canvas, vertices):
@@ -7,6 +8,10 @@ class Triangle(DrawObject, GTriangle):
         GTriangle.__init__(self, vertices)
 
     def draw(self):
-        positions = self.vertex_a.get_x(), self.vertex_a.get_y(), self.vertex_b.get_x(), self.vertex_b.get_y(), self.vertex_c.get_x(), self.vertex_c.get_y()
+        (ax, ay) = DrawObject.Denormalize(self.canvas, self.vertices[0].get_position())
+        (bx, by) = DrawObject.Denormalize(self.canvas, self.vertices[1].get_position())
+        (cx, cy) = DrawObject.Denormalize(self.canvas, self.vertices[2].get_position())
+
+        positions = ax, ay, bx, by, cx, cy
         self.canvas.create_polygon(positions, fill=self.color["fill"].hex)
         return self

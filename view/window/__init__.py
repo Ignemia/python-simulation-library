@@ -1,12 +1,12 @@
-import random
 import time
 import tkinter as Tk
-from view.color import Color, parse_hex
+
+from view.color import parse_hex
 
 
 class Window(Tk.Tk):
     def __init__(self, size, background=parse_hex("#ffffff"), title="Main window"):
-        super().__init__()
+        Tk.Tk.__init__(self)
         self.current_background = background
         self.geometry(f"{size[0]}x{size[1]}")
         self.config(background=self.current_background.hex)
@@ -33,20 +33,20 @@ class Window(Tk.Tk):
             if o.is_dead():
                 continue
             o.draw()
+        return self
 
     def get_canvas(self):
         return self.canvas
 
     def filter_objects(self):
-        pass
+        return self
 
     def add_draw_object(self, item):
         self.draw_objects.append(item)
         return self
 
-
     def optimize(self):
-        self.draw_objects.remove(lambda x : x.locked and x.destroy)
+        self.draw_objects.remove(lambda x: x.locked and x.destroy)
         return self
 
     def update_scene(self):
@@ -69,19 +69,17 @@ class Window(Tk.Tk):
 
         return self.last_frame_time
 
-
     def add_update_function(self, func):
         self.update_functions.append(func)
         return self
 
     def remove_update_function(self, func_id):
-        for f in self.update_functions:
-            self.update_functions.remove(lambda x: x[0] == func_id)
+        self.update_functions.remove(lambda x: x[0] == func_id)
+        return self
 
     def add_physics_function(self, func):
         self.physics = func
         return self
-
 
     def set_background(self, color):
         self.current_background = color

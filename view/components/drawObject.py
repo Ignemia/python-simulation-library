@@ -1,15 +1,13 @@
 from view.color import Color
+from view.math.vertex import Vertex
 
 
 class DrawObject(object):
     def __init__(self, canvas, *args):
-        self.args = args
         self.canvas = canvas
-        self.position = None
         self.destroy = False
         self.locked = False
-        self.immutable = False
-        self.original = self
+        self.centroid = None
         self.color = {
             "fill": Color.Get_Random(),
             "stroke": Color.Get_Random()
@@ -28,23 +26,13 @@ class DrawObject(object):
     def is_dead(self):
         return self.locked
 
-    def get_normal_x(self):
-        return self.position[0] - int(self.canvas["width"]) / 2
-
-    def get_normal_y(self):
-        return self.position[1] - int(self.canvas["height"]) / 2
-
-    def get_x(self):
-        return self.position[0]
-
-    def get_y(self):
-        return self.position[1]
-
     def set_position(self, new_position):
-        c_w = int(self.canvas["width"]) / 2
-        c_h = int(self.canvas["height"]) / 2
+        if self.centroid is None:
+            self.centroid = Vertex(self.canvas, new_position)
+        else:
+            self.centroid.set_position(new_position)
 
-        return self.set_attribute("position", (int(new_position[0]) + c_w, (-int(new_position[1]) + c_h)))
+        return self.set_attribute("position", (self.centroid.get_x(), self.centroid.get_y()))
 
     def set_destructible(self):
         self.set_attribute("destroy", True)
@@ -54,16 +42,8 @@ class DrawObject(object):
         self.set_attribute("locked", True)
         return self
 
-    def set_immutable(self):
-        self.immutable = True
-        return self
-
     def set_attribute(self, key, value):
-        if self.immutable:
-            raise AttributeError("Object is immutable")
-        else:
-            self.__setattr__(key, value)
-
+        self.__setattr__(key, value)
         return self
 
     @staticmethod

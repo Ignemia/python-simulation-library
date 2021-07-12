@@ -7,7 +7,7 @@ class Rectangle(Shape2D):
     def __init__(self, center, sides):
         Shape2D.__init__(self)
 
-        vertex = Vertex((center.get_normal_x(), center.get_normal_y()))
+        vertex = Vertex((center.get_x(), center.get_y()))
 
         self.set_relative_object(vertex)
 
@@ -29,8 +29,6 @@ class Rectangle(Shape2D):
             Vector2D(vertex, self.vertices[2]),
             Vector2D(vertex, self.vertices[3])
         ]
-
-
     def rotate(self, angle):
         self.current_rotation += angle
         self.vectors[0].rotate(angle)

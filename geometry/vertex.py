@@ -6,6 +6,9 @@ class Vertex:
         self.locked = False
         self.relative_to = None
 
+    def get_position(self):
+        return self.get_x(), self.get_y()
+
     def get_x(self, relation_point=None):
         if relation_point is not None:
             return self.x + relation_point[0]

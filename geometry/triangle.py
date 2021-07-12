@@ -11,16 +11,15 @@ class Triangle(Shape2D):
             raise TypeError(f"Triangle requires exactly 3 vertices {len(vertices)} given")
         super().__init__()
 
-        self.vertex_a = vertices[0]
-        self.vertex_b = vertices[1]
-        self.vertex_c = vertices[2]
-
+        self.vertices = vertices
         self.centroid = self.get_centroid()
         self.position = (self.centroid.get_x(), self.centroid.get_y())
 
-        self.vector_ab = Vector2D(self.vertex_a, self.vertex_b)
-        self.vector_bc = Vector2D(self.vertex_b, self.vertex_c)
-        self.vector_ca = Vector2D(self.vertex_c, self.vertex_a)
+        self.center_vectors = [Vector2D(self.centroid, v) for v in self.vertices]
+
+        self.vector_ab = Vector2D(self.vertices[0], self.vertices[1])
+        self.vector_bc = Vector2D(self.vertices[1], self.vertices[2])
+        self.vector_ca = Vector2D(self.vertices[2], self.vertices[0])
 
         self.circumference = self.vector_ab.get_magnitude() + self.vector_bc.get_magnitude() + self.vector_ca.get_magnitude()
         heron_s = self.circumference / 2
@@ -31,8 +30,8 @@ class Triangle(Shape2D):
 
     def get_centroid(self):
         return Vertex((
-            (self.vertex_a.get_x() + self.vertex_b.get_x() + self.vertex_c.get_x()) / 3,
-            (self.vertex_a.get_y() + self.vertex_b.get_y() + self.vertex_c.get_y()) / 3
+            sum([x.get_x() for x in self.vertices]) / 3,
+            sum([x.get_y() for x in self.vertices]) / 3
         ))
 
     def move(self, amount):
@@ -40,10 +39,12 @@ class Triangle(Shape2D):
         return self.set_attribute("position", (self.centroid.get_x(), self.centroid.get_x()))
 
     def rotate(self, amount):
+        # print(amount)
         self.current_rotation += amount
+        self.current_rotation %= 2 * math.pi
+        # pprint(self.current_rotation)
 
-        self.set_attribute("vertex_a", Vertex(Vector2D(self.centroid, self.vertex_a).rotate(amount).get_endpoint()))
-        self.set_attribute("vertex_b", Vertex(Vector2D(self.centroid, self.vertex_b).rotate(amount).get_endpoint()))
-        self.set_attribute("vertex_c", Vertex(Vector2D(self.centroid, self.vertex_c).rotate(amount).get_endpoint()))
+        for i, v in enumerate(self.center_vectors):
+            self.vertices[i].set_position(v.rotate(amount).get_endpoint())
 
         return self
