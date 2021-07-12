@@ -9,8 +9,6 @@ class Rectangle(Shape2D):
 
         vertex = Vertex((center.get_x(), center.get_y()))
 
-        self.set_relative_object(vertex)
-
         x_pos = self.get_x() + sides[0]
         y_pos = self.get_y() + sides[1]
         x_neg = self.get_x() - sides[0]

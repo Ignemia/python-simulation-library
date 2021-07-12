@@ -8,9 +8,9 @@ class Triangle(DrawObject, GTriangle):
         GTriangle.__init__(self, vertices)
 
     def draw(self):
-        (ax, ay) = DrawObject.Denormalize(self.canvas, self.vertices[0].get_position())
-        (bx, by) = DrawObject.Denormalize(self.canvas, self.vertices[1].get_position())
-        (cx, cy) = DrawObject.Denormalize(self.canvas, self.vertices[2].get_position())
+        (ax, ay) = self.get_draw_position(self.vertices[0].get_position(self.get_position()))
+        (bx, by) = self.get_draw_position(self.vertices[1].get_position(self.get_position()))
+        (cx, cy) = self.get_draw_position(self.vertices[2].get_position(self.get_position()))
 
         positions = ax, ay, bx, by, cx, cy
         self.canvas.create_polygon(positions, fill=self.color["fill"].hex)

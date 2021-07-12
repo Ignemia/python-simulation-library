@@ -36,7 +36,7 @@ class Triangle(Shape2D):
 
     def move(self, amount):
         self.centroid.translate(amount)
-        return self.set_attribute("position", (self.centroid.get_x(), self.centroid.get_x()))
+        return self.set_attribute("position", (self.centroid.get_x(), self.centroid.get_y()))
 
     def rotate(self, amount):
         # print(amount)
