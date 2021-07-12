@@ -10,6 +10,22 @@ class Shape2D:
         self.locked = False
         self.current_rotation = 0
 
+    def update(self, delta_t):
+        return self.move((self.movement[0] * delta_t, self.movement[1] * delta_t))
+
+    def set_movement_vector(self, movement_vector):
+        self.movement = movement_vector
+        return self
+
+    def set_position(self, new_position):
+        self.set_attribute("position", (new_position.get_x(), new_position.get_y()))
+        return self
+
+    def get_position(self, relation_point=None):
+        if relation_point is None:
+            return self.position
+        return relation_point.get_x() + self.get_x(), relation_point.get_y() + self.get_y()
+
     def get_x(self):
         if self.relative_to is not None:
             return self.relative_to.position[0] + self.position[0]
