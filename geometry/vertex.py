@@ -32,7 +32,7 @@ class Vertex:
 
     def translate(self, amount):
         self.set_attribute("x", self.x + amount[0])
-        self.set_attribute("y", self.y + amount[1])
+        self.set_attribute("y", self.y - amount[1])
         self.set_attribute("position", (self.x, self.y))
         return self
 

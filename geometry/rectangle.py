@@ -21,6 +21,9 @@ class Rectangle(Shape2D):
             Vertex((x_pos, y_neg))
         ]
 
+        for v in self.vertices:
+            v.set_attribute("relative_to", vertex)
+
         self.vectors = [
             Vector2D(vertex, self.vertices[0]),
             Vector2D(vertex, self.vertices[1]),

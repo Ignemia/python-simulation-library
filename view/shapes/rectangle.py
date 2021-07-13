@@ -10,8 +10,8 @@ class Rectangle(DrawObject, GRectangle):
 
     def draw(self):
         vert_map = []
-        c = self.get_draw_position(self.get_position())
+        p = self.get_position()
         for v in self.vertices:
-            vert_map.extend([v.get_x(c), v.get_y(c)])
+            vert_map.extend([v.get_x(p), v.get_y(p)])
         self.canvas.create_polygon(vert_map, fill=self.color["fill"].hex)
         return self

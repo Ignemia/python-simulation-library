@@ -14,8 +14,7 @@ def object_update(app):
         d_t = app.get_delta_t()
         o.update(d_t)
         o.apply_acceleration((0, -9.8), d_t)
-        # '''sometimes is do be 0.000 so the or statement to negate that'''
-        o.rotate(math.pi / 10 * d_t)
+        o.rotate(math.pi * 2 * d_t)
 
 
 def setup(app):
@@ -29,9 +28,9 @@ def setup(app):
         vel_x = random.randint(0, 100) - 50
         # c = Square(cv, center, random.randint(5, 25)).set_color(Color.Get_Random()).set_movement_vector((vel_y, vel_x))
 
-        v1 = Vertex(cv, (random.randint(0, 100) - 50, random.randint(0, 100) - 50))
-        v2 = Vertex(cv, (random.randint(0, 100) - 50, random.randint(0, 100) - 50))
-        v3 = Vertex(cv, (random.randint(0, 100) - 50, random.randint(0, 100) - 50))
+        v1 = Vertex(cv, (random.randint(0, 200) - 100, random.randint(0, 200) - 100))
+        v2 = Vertex(cv, (random.randint(0, 200) - 100, random.randint(0, 200) - 100))
+        v3 = Vertex(cv, (random.randint(0, 200) - 100, random.randint(0, 200) - 100))
 
         c = Triangle(cv, [v1, v2, v3]).set_color(Color.Get_Random()).set_movement_vector((vel_y, vel_x))
         app.add_draw_object(c)

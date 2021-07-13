@@ -22,11 +22,11 @@ class Triangle(Shape2D):
         self.vector_ca = Vector2D(self.vertices[2], self.vertices[0])
 
         self.circumference = self.vector_ab.get_magnitude() + self.vector_bc.get_magnitude() + self.vector_ca.get_magnitude()
-        heron_s = self.circumference / 2
-        heron_a = (heron_s - self.vector_ab.get_magnitude())
-        heron_b = (heron_s - self.vector_bc.get_magnitude())
-        heron_c = (heron_s - self.vector_ca.get_magnitude())
-        self.area = math.sqrt(heron_s * heron_a * heron_b * heron_c)
+        # heron_s = self.circumference / 2
+        # heron_a = (heron_s - self.vector_ab.get_magnitude())
+        # heron_b = (heron_s - self.vector_bc.get_magnitude())
+        # heron_c = (heron_s - self.vector_ca.get_magnitude())
+        # self.area = math.sqrt(heron_s * heron_a * heron_b * heron_c)
 
     def get_centroid(self):
         return Vertex((

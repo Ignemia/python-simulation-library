@@ -8,10 +8,9 @@ class Triangle(DrawObject, GTriangle):
         GTriangle.__init__(self, vertices)
 
     def draw(self):
-        (ax, ay) = self.get_draw_position(self.vertices[0].get_position(self.get_position()))
-        (bx, by) = self.get_draw_position(self.vertices[1].get_position(self.get_position()))
-        (cx, cy) = self.get_draw_position(self.vertices[2].get_position(self.get_position()))
-
-        positions = ax, ay, bx, by, cx, cy
-        self.canvas.create_polygon(positions, fill=self.color["fill"].hex)
+        vert_map = []
+        p = self.get_position(self.get_canvas_center_position())
+        for v in self.vertices:
+            vert_map.extend([v.get_x(p), v.get_y(p)])
+        self.canvas.create_polygon(vert_map, fill=self.color["fill"].hex)
         return self

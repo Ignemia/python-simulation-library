@@ -53,7 +53,7 @@ class Shape2D:
         return self
 
     def move(self, amount):
-        return self.set_attribute("position", (self.position[0] + amount[0], self.position[1] + amount[1]))
+        return self.set_attribute("position", (self.position[0] + amount[0], self.position[1] - amount[1]))
 
     def move_x(self, amount):
         return self.move((self.position[0] + amount, 0))
