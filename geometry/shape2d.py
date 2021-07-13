@@ -21,6 +21,9 @@ class Shape2D:
         self.set_attribute("position", (new_position.get_x(), new_position.get_y()))
         return self
 
+    def apply_acceleration(self, acceleration, delta_t):
+        return self.set_attribute("movement", (self.movement[0] + acceleration[0] * delta_t, self.movement[1] + acceleration[1] * delta_t))
+
     def get_position(self, relation_point=None):
         if relation_point is None:
             return self.position

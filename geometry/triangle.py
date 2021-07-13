@@ -39,10 +39,8 @@ class Triangle(Shape2D):
         return self.set_attribute("position", (self.centroid.get_x(), self.centroid.get_y()))
 
     def rotate(self, amount):
-        # print(amount)
         self.current_rotation += amount
         self.current_rotation %= 2 * math.pi
-        # pprint(self.current_rotation)
 
         for i, v in enumerate(self.center_vectors):
             self.vertices[i].set_position(v.rotate(amount).get_endpoint())

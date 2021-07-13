@@ -1,4 +1,5 @@
 # from geometry.triangle import Triangle
+import math
 
 import numpy.random as random
 
@@ -10,9 +11,11 @@ from view.window import Window
 
 def object_update(app):
     for o in app.draw_objects:
-        o.update(app.last_frame_time or 0.001)
+        d_t = app.last_frame_time or 0.001
+        o.update(d_t)
+        o.apply_acceleration((0, -9.8), d_t)
         # '''sometimes is do be 0.000 so the or statement to negate that'''
-        # o.rotate(math.pi / (10_000_000 * (app.last_frame_time or 0.001)))
+        o.rotate(math.pi / 10 * d_t)
 
 
 def setup(app):
@@ -22,8 +25,8 @@ def setup(app):
     half_h = int(cv["height"]) / 2
     for i in range(100):
         # center = Vertex(cv, (random.randint(-half_w, half_w), random.randint(-half_h, half_h)))
-        vel_y = random.randint(0, 200) - 100
-        vel_x = random.randint(0, 200) - 100
+        vel_y = random.randint(0, 100) - 50
+        vel_x = random.randint(0, 100) - 50
         # c = Square(cv, center, random.randint(5, 25)).set_color(Color.Get_Random()).set_movement_vector((vel_y, vel_x))
 
         v1 = Vertex(cv, (random.randint(0, 100) - 50, random.randint(0, 100) - 50))
