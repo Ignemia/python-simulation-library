@@ -11,7 +11,7 @@ from view.window import Window
 
 def object_update(app):
     for o in app.draw_objects:
-        d_t = app.last_frame_time or 0.001
+        d_t = app.get_delta_t()
         o.update(d_t)
         o.apply_acceleration((0, -9.8), d_t)
         # '''sometimes is do be 0.000 so the or statement to negate that'''

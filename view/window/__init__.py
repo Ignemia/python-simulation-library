@@ -26,6 +26,21 @@ class Window(Tk.Tk):
         self.setup = None
         self.physics = None
 
+    def get_delta_t(self, units="s"):
+        ft = self.last_frame_time or 0.001
+        if units == "ms":
+            return ft * 1000
+        elif units == "us":
+            return ft * 1000_000
+        elif units == "ns":
+            return ft * 1_000_000_000
+        elif units == "min":
+            return ft / 60
+        elif units == "h":
+            return ft / 3600
+        else:
+            return ft
+
     def redraw(self):
         self.canvas.update()
         self.canvas.delete(Tk.ALL)
