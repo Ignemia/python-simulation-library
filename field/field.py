@@ -4,7 +4,9 @@ from field.fieldSpot import FieldSpot
 
 
 class Field:
-    def __init__(self, name, recalc_function, window_size, density=1, default_value=0, past_edge_extension=1, app=None):
+    def __init__(self, name, recalc_function, window_size, density=1, default_value=0, past_edge_extension=0, app=None):
+        if past_edge_extension != 0:
+            raise Exception("Currently not supporting past_edge_extension")
         self.name = name
         self.recalc_function = recalc_function
         self.density = density
@@ -17,11 +19,15 @@ class Field:
     def get_value_at(self, x, y):
         sum_values = 0
         count = 0
-        delta_y = int((self.density - 1) * self.width)
-        for c_y in range(delta_y):
-            y_ = (y * self.width * self.density) + c_y * self.width
-            for c_x in range(self.density):
-                c_x + x + y_
+
+        index_0 = self.density * (self.width * y * self.density + x)
+        next_row = self.density * (self.width - 1)
+
+        for y_shift in range(self.density):
+            for x_shift in range(self.density):
+                sum_values += self.spots[index_0 + x_shift + y_shift * next_row]
+                count += 1
+
         return sum_values / count
 
     def update(self):

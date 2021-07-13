@@ -1,6 +1,7 @@
 class FieldSpot:
-    def __init__(self, position, value, neighbors, field):
+    def __init__(self, value, index, position, neighbors, field):
         self.position = position
+        self.index = index
         self.value = value
         self.neighbors = neighbors
         self.field = field
