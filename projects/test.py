@@ -35,7 +35,7 @@ def update_function(field, _app):
 
 
 def default_value_assignment(spot):
-    spot.value = 1 if ((spot.position[0] + spot.position[1]) % 2 == 1) else 0
+    spot.value = (spot.position[0] + spot.position[1]) % 2 == 1
 
 def setup(app):
     app.create_field("checkerboard", update_function, default_value_assignment, (WIDTH, HEIGHT), 1 / SIZE)
