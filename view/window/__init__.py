@@ -1,6 +1,7 @@
 import time
 import tkinter as Tk
 
+from field.field import Field
 from view.color import parse_hex
 
 
@@ -23,8 +24,11 @@ class Window(Tk.Tk):
         self.last_frame_time = 0
 
         self.update_functions = []
+        self.field_draw_functions = []
         self.setup = None
         self.physics = None
+
+        self.fields = {}
 
     def get_delta_t(self, units="s"):
         ft = self.last_frame_time or 0.001
@@ -42,8 +46,13 @@ class Window(Tk.Tk):
             return ft
 
     def redraw(self):
+        # pass
         self.canvas.update()
         self.canvas.delete(Tk.ALL)
+
+        for f in self.field_draw_functions:
+            f[1](self.fields[f[0]], self)
+
         for o in self.draw_objects:
             if o.is_dead():
                 continue
@@ -88,6 +97,10 @@ class Window(Tk.Tk):
         self.update_functions.append(func)
         return self
 
+    def add_field_draw_function(self, fname, func):
+        self.field_draw_functions.append((fname, func))
+        return self
+
     def remove_update_function(self, func_id):
         self.update_functions.remove(lambda x: x[0] == func_id)
         return self
@@ -108,3 +121,6 @@ class Window(Tk.Tk):
         self.setup(self)
         while True:
             self.update_scene()
+
+    def create_field(self, name, recalc_function, assign_start_value_function, window_size, density=1, default_value=0, past_edge_extension=0):
+        self.fields[name] = Field(name, recalc_function, assign_start_value_function, window_size, self, density, default_value, past_edge_extension)
